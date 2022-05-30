@@ -1,0 +1,2 @@
+Prosta usługa REST z użyciem pamięciowej bazy danych H2.
+Mamy do dyspozycji kilka endpointów na każdą z 4 podstawowych funkcjonalności na usłudze REST (Zapis, odczyt, usunięcie i zaktualizowanie rekordu)

@@ -20,7 +20,10 @@ public class GeoDataController {
     GeoDataService geoDataService;
 
     @PostMapping
-    public GeoData saveGeoData(@RequestBody GeoData geoData) {
+    public GeoData saveGeoData(@RequestBody GeoData geoData) throws Exception {
+        if(geoDataService.isGeoDataWithId(geoData.getDeviceId())) {
+            throw new Exception("Database has already created GeoData with id "+geoData.getDeviceId());
+        }
         return geoDataService.saveGeoData(geoData);
     }
 
@@ -30,17 +33,26 @@ public class GeoDataController {
     }
 
     @GetMapping("/getById-{id}")
-    public GeoData getGeoDataById(@PathVariable("id") Long id) {
+    public GeoData getGeoDataById(@PathVariable("id") Long id) throws Exception{
+        if(! geoDataService.isGeoDataWithId(id)) {
+            throw new Exception("Couldn't find id "+id);
+        }
         return geoDataService.findGeoDataById(id);
     }
 
     @DeleteMapping("/deleteById-{id}")
-    public void deleteById(@PathVariable("id") Long id) {
+    public void deleteById(@PathVariable("id") Long id) throws Exception{
+        if(! geoDataService.isGeoDataWithId(id)) {
+            throw new Exception("Couldn't find id "+id);
+        }
         geoDataService.deleteGeoDataById(id);
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestBody GeoData geoData) {
+    public void delete(@RequestBody GeoData geoData) throws Exception {
+        if(! geoDataService.isGeoDataWithId(geoData.getDeviceId())) {
+            throw new Exception("Couldn't find id "+geoData.getDeviceId());
+        }
         geoDataService.deleteGeoData(geoData);
     }
 
